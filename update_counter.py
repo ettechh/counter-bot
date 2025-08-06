@@ -27,4 +27,3 @@ for i in range(num_commits):
     subprocess.run(["git", "add", "counter.txt"])
     subprocess.run(["git", "commit", "-m", f"Automated commit {i+1} of {num_commits} (counter: {count})"])
 
-print("Done!")
