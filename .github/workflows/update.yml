@@ -28,8 +28,5 @@ jobs:
         git config user.name "Eric Tech"
         git config user.email "erictech.et@gmail.com"
 
-        git add counter.txt
-        git diff --cached --quiet || git commit -m "Automated counter update"
-
         git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
         git push origin HEAD:${{ github.ref_name }}
