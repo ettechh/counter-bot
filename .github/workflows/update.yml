@@ -1,0 +1,30 @@
+name: Update Counter Daily
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # Every day at 10:00 AM UTC
+  workflow_dispatch:       # Allows manual runs
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Run Python script
+      run: python update_counter.py
+
+    - name: Commit and push changes
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add counter.txt
+        git commit -m "Automated counter update"
+        git push
