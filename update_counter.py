@@ -1,6 +1,8 @@
 import os
+import random
+import subprocess
 
-# Read the current counter
+# Read current counter value
 if os.path.exists("counter.txt"):
     with open("counter.txt", "r") as f:
         try:
@@ -10,9 +12,19 @@ if os.path.exists("counter.txt"):
 else:
     count = 0
 
-# Increment the counter
-count += 1
+# Random number of increments today
+num_commits = random.randint(1, 10)
+print(f"Making {num_commits} increments today.")
 
-# Write it back to the file
-with open("counter.txt", "w") as f:
-    f.write(str(count))
+for i in range(num_commits):
+    count += 1
+
+    # Write updated counter
+    with open("counter.txt", "w") as f:
+        f.write(str(count))
+
+    # Stage and commit changes
+    subprocess.run(["git", "add", "counter.txt"])
+    subprocess.run(["git", "commit", "-m", f"Automated commit {i+1} of {num_commits} (counter: {count})"])
+
+print("Done!")
