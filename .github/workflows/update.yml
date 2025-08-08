@@ -6,27 +6,24 @@ on:
   workflow_dispatch:       # Allows manual runs
 
 jobs:
-  run-script:
+  update-counter:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false  # We'll set credentials manually
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up GitHub credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/ettechh/counter-bot.git
 
-    - name: Run Python script
-      run: python update_counter.py
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-    - name: Commit and push changes
-      env:
-        TOKEN: ${{ secrets.PERSONAL_TOKEN }}
-      run: |
-        git config user.name "ettechh"
-        git config user.email "erictech.et@gmail.com"
-
-        git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
-        git push origin HEAD:${{ github.ref_name }}
+      - name: Run update script
+        run: python update_counter.py
