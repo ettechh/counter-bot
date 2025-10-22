@@ -13,7 +13,7 @@ else:
     count = 0
 
 # Random number of increments today
-num_commits = random.randint(1, 5)
+num_commits = random.randint(1, 3)
 print(f"Making {num_commits} increments today.")
 
 for i in range(num_commits):
@@ -30,6 +30,7 @@ for i in range(num_commits):
         f"Automated commit {i+1} of {num_commits} (counter: {count})"
     ], check=True)
     subprocess.run(["git", "push", "origin", "main"], check=True)
+
 
 
 
